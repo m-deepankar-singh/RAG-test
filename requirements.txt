@@ -1,0 +1,11 @@
+
+httptools
+pinecone-client
+supabase
+python-dotenv
+routes
+watchfiles
+fastapi
+uvicorn
+langchain
+openai
