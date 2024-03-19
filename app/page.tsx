@@ -55,8 +55,8 @@ const ConversationPage = () => {
       {/* Sidebar */}
       <div className="w-64 bg-gray-800 p-4">
         <Heading
-          title="Interactive Chatbot"
-          description="Engage in a conversation. Provide a URL for contextual responses."
+          title="RAG Chatbot"
+          description="Engage in a conversation. Provide a files for contextual responses."
         />
         <div className="mt-4">
           <FileUpload
