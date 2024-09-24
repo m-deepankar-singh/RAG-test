@@ -1,4 +1,4 @@
-
+langchain_community
 httptools
 pinecone-client
 supabase
@@ -9,3 +9,8 @@ fastapi
 uvicorn
 langchain
 openai
+uvicorn
+langchain_openai
+langchain_pinecone
+python-multipart
+pypdf

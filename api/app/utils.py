@@ -48,7 +48,7 @@ def init_pinecone():
 
 # Creating context retriever chain for chat functionality
 def get_context_retriever_chain(vector_store):
-    llm = ChatOpenAI()  # Assuming this is properly set up in your LangChain configuration
+    llm = ChatOpenAI(model="gpt-4o-mini")  # Assuming this is properly set up in your LangChain configuration
     retriever = vector_store.as_retriever() if vector_store else None
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder(variable_name="chat_history"),
@@ -60,7 +60,7 @@ def get_context_retriever_chain(vector_store):
 # Creating conversational chain for chat responses
 def get_conversational_rag_chain(retriever_chain):
 
-    llm = ChatOpenAI()  # Assuming this is properly set up in your LangChain configuration
+    llm = ChatOpenAI(model="gpt-4o-mini")  # Assuming this is properly set up in your LangChain configuration
     prompt = ChatPromptTemplate.from_messages([
         ("system", "Answer the user's questions based on the below context:\n\n{context}"),
         MessagesPlaceholder(variable_name="chat_history"),

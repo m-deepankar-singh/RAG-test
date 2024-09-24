@@ -16,11 +16,12 @@ from .utils import (
 from .models import (ChatRequest)
 from .config import (SUPABASE_BUCKET, PINECONE_API_KEY)
 from pinecone import Pinecone, PodSpec
-from langchain.embeddings import OpenAIEmbeddings
-from langchain_pinecone import PineconeVectorStore
+from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_pinecone import Pinecone
 
 vector_store = None  # This should be initialized properly elsewhere in your code
 index_name="documents"
+embeddings=OpenAIEmbeddings
 
 def process_files_from_supabase():
     global vector_store
@@ -44,8 +45,8 @@ def process_files_from_supabase():
         pages = process_file(file_path)
         all_pages.extend(pages)
 
-    embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
-    vector_store=PineconeVectorStore.from_documents(all_pages, embedding=embeddings, index_name=index_name)
+    embeddings = OpenAIEmbeddings(model='text-embedding-3-small')
+    vector_store=Pinecone.from_documents(all_pages, embedding=embeddings, index_name=index_name)
 
     shutil.rmtree(temp_dir)
 
@@ -53,7 +54,7 @@ def process_files_from_supabase():
 
 async def delete_index():
     global chat_history
-    pc = Pinecone(PINECONE_API_KEY)
+    pc = Pinecone(pinecone_api_key=PINECONE_API_KEY,index_name=index_name,embedding=embeddings)
     pc.delete_index("documents")
     pc.create_index(name="documents", dimension=1536, metric="cosine", spec=PodSpec(environment="gcp-starter"))
     chat_history = [AIMessage(content="Hello, I am a bot. How can I help you?")]
