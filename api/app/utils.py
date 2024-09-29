@@ -11,6 +11,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from pinecone import Pinecone
 import os
 from dotenv import load_dotenv
+from langchain_together import ChatTogether
 
 load_dotenv()
 # Initialize Supabase client
@@ -48,7 +49,11 @@ def init_pinecone():
 
 # Creating context retriever chain for chat functionality
 def get_context_retriever_chain(vector_store):
-    llm = ChatOpenAI(model="gpt-4o-mini")  # Assuming this is properly set up in your LangChain configuration
+    #llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatTogether(model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",temperature=0.2,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,)    
     retriever = vector_store.as_retriever() if vector_store else None
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder(variable_name="chat_history"),
@@ -60,7 +65,11 @@ def get_context_retriever_chain(vector_store):
 # Creating conversational chain for chat responses
 def get_conversational_rag_chain(retriever_chain):
 
-    llm = ChatOpenAI(model="gpt-4o-mini")  # Assuming this is properly set up in your LangChain configuration
+    #llm = ChatOpenAI(model="gpt-4o-mini") 
+    llm = ChatTogether(model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",temperature=0.2,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "Answer the user's questions based on the below context:\n\n{context}"),
         MessagesPlaceholder(variable_name="chat_history"),
